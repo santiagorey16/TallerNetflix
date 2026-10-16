@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,7 +11,6 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
@@ -25,6 +21,8 @@ import com.santiagorey.netflix.ui.screens.HomeScreen
 import com.santiagorey.netflix.ui.screens.LoginScreen
 import com.santiagorey.netflix.ui.screens.ProfileScreen
 import com.santiagorey.netflix.ui.screens.RegisterScreen
+import com.santiagorey.netflix.ui.screens.RegisterStep2Screen
+import com.santiagorey.netflix.ui.screens.RegisterStep3Screen
 import com.santiagorey.netflix.ui.screens.SearchScreen
 
 class MainActivity : ComponentActivity() {
@@ -36,14 +34,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            // Controlador de navegación
             val navController = rememberNavController()
 
-            // Obtiene la pantalla actual
             val navBackStackEntry by
             navController.currentBackStackEntryAsState()
 
-            // Guarda la ruta actual
             val currentRoute =
                 navBackStackEntry?.destination?.route
 
@@ -54,8 +49,8 @@ class MainActivity : ComponentActivity() {
 
                 bottomBar = {
 
-                    // La barra inferior solo aparece
-                    // en Home, Buscar y Mi Netflix
+                    // La barra inferior solamente aparece
+                    // dentro de la aplicación principal
                     if (
                         currentRoute == "home" ||
                         currentRoute == "search" ||
@@ -90,15 +85,10 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
-
                                     selectedIconColor = Color.Red,
-
                                     selectedTextColor = Color.White,
-
                                     unselectedIconColor = Color.Gray,
-
                                     unselectedTextColor = Color.Gray,
-
                                     indicatorColor = Color.Transparent
                                 )
                             )
@@ -128,15 +118,10 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
-
                                     selectedIconColor = Color.Red,
-
                                     selectedTextColor = Color.White,
-
                                     unselectedIconColor = Color.Gray,
-
                                     unselectedTextColor = Color.Gray,
-
                                     indicatorColor = Color.Transparent
                                 )
                             )
@@ -166,15 +151,10 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
-
                                     selectedIconColor = Color.Red,
-
                                     selectedTextColor = Color.White,
-
                                     unselectedIconColor = Color.Gray,
-
                                     unselectedTextColor = Color.Gray,
-
                                     indicatorColor = Color.Transparent
                                 )
                             )
@@ -189,7 +169,6 @@ class MainActivity : ComponentActivity() {
 
                     navController = navController,
 
-                    // La aplicación comienza en Login
                     startDestination = "login",
 
                     modifier = Modifier.padding(paddingValues)
@@ -209,7 +188,6 @@ class MainActivity : ComponentActivity() {
 
                                 navController.navigate("home") {
 
-                                    // Elimina Login del historial
                                     popUpTo("login") {
                                         inclusive = true
                                     }
@@ -249,24 +227,51 @@ class MainActivity : ComponentActivity() {
                     // -------------------------
                     // REGISTRO
                     // PASO 2 DE 3
-                    // TEMPORAL
                     // -------------------------
 
                     composable("register2") {
 
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.Black),
+                        RegisterStep2Screen(
 
-                            contentAlignment = Alignment.Center
-                        ) {
+                            onClickBack = {
 
-                            Text(
-                                text = "Paso 2 - Elegir plan",
-                                color = Color.White
-                            )
-                        }
+                                navController.popBackStack()
+                            },
+
+                            onClickContinue = {
+
+                                navController.navigate("register3")
+                            }
+                        )
+                    }
+
+
+                    // -------------------------
+                    // REGISTRO
+                    // PASO 3 DE 3
+                    // -------------------------
+
+                    composable("register3") {
+
+                        RegisterStep3Screen(
+
+                            onClickBack = {
+
+                                navController.popBackStack()
+                            },
+
+                            onClickFinish = {
+
+                                navController.navigate("home") {
+
+                                    // Eliminamos todo el proceso
+                                    // de registro del historial
+                                    popUpTo("login") {
+                                        inclusive = true
+                                    }
+                                }
+                            }
+                        )
                     }
 
 
