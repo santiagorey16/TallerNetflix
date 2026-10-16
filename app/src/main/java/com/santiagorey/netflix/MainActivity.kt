@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.santiagorey.netflix.ui.screens.HomeScreen
 import com.santiagorey.netflix.ui.screens.LoginScreen
 import com.santiagorey.netflix.ui.screens.ProfileScreen
+import com.santiagorey.netflix.ui.screens.RegisterScreen
 import com.santiagorey.netflix.ui.screens.SearchScreen
 
 class MainActivity : ComponentActivity() {
@@ -35,11 +36,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
+            // Controlador de navegación
             val navController = rememberNavController()
 
+            // Obtiene la pantalla actual
             val navBackStackEntry by
             navController.currentBackStackEntryAsState()
 
+            // Guarda la ruta actual
             val currentRoute =
                 navBackStackEntry?.destination?.route
 
@@ -50,7 +54,8 @@ class MainActivity : ComponentActivity() {
 
                 bottomBar = {
 
-                    // Solo mostramos la barra si estamos dentro de la app
+                    // La barra inferior solo aparece
+                    // en Home, Buscar y Mi Netflix
                     if (
                         currentRoute == "home" ||
                         currentRoute == "search" ||
@@ -61,12 +66,16 @@ class MainActivity : ComponentActivity() {
                             containerColor = Color(0xFF0F0F0F)
                         ) {
 
+                            // -------------------------
                             // INICIO
+                            // -------------------------
+
                             NavigationBarItem(
 
                                 selected = currentRoute == "home",
 
                                 onClick = {
+
                                     navController.navigate("home") {
                                         launchSingleTop = true
                                     }
@@ -81,21 +90,30 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
+
                                     selectedIconColor = Color.Red,
+
                                     selectedTextColor = Color.White,
+
                                     unselectedIconColor = Color.Gray,
+
                                     unselectedTextColor = Color.Gray,
+
                                     indicatorColor = Color.Transparent
                                 )
                             )
 
 
+                            // -------------------------
                             // BUSCAR
+                            // -------------------------
+
                             NavigationBarItem(
 
                                 selected = currentRoute == "search",
 
                                 onClick = {
+
                                     navController.navigate("search") {
                                         launchSingleTop = true
                                     }
@@ -110,21 +128,30 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
+
                                     selectedIconColor = Color.Red,
+
                                     selectedTextColor = Color.White,
+
                                     unselectedIconColor = Color.Gray,
+
                                     unselectedTextColor = Color.Gray,
+
                                     indicatorColor = Color.Transparent
                                 )
                             )
 
 
+                            // -------------------------
                             // MI NETFLIX
+                            // -------------------------
+
                             NavigationBarItem(
 
                                 selected = currentRoute == "profile",
 
                                 onClick = {
+
                                     navController.navigate("profile") {
                                         launchSingleTop = true
                                     }
@@ -139,10 +166,15 @@ class MainActivity : ComponentActivity() {
                                 },
 
                                 colors = NavigationBarItemDefaults.colors(
+
                                     selectedIconColor = Color.Red,
+
                                     selectedTextColor = Color.White,
+
                                     unselectedIconColor = Color.Gray,
+
                                     unselectedTextColor = Color.Gray,
+
                                     indicatorColor = Color.Transparent
                                 )
                             )
@@ -152,14 +184,18 @@ class MainActivity : ComponentActivity() {
 
             ) { paddingValues ->
 
+
                 NavHost(
+
                     navController = navController,
 
-                    // AHORA LA APP COMIENZA EN LOGIN
+                    // La aplicación comienza en Login
                     startDestination = "login",
 
                     modifier = Modifier.padding(paddingValues)
+
                 ) {
+
 
                     // -------------------------
                     // LOGIN
@@ -173,7 +209,7 @@ class MainActivity : ComponentActivity() {
 
                                 navController.navigate("home") {
 
-                                    // Evita volver al Login con el botón atrás
+                                    // Elimina Login del historial
                                     popUpTo("login") {
                                         inclusive = true
                                     }
@@ -190,10 +226,33 @@ class MainActivity : ComponentActivity() {
 
                     // -------------------------
                     // REGISTRO
-                    // Temporal por ahora
+                    // PASO 1 DE 3
                     // -------------------------
 
                     composable("register") {
+
+                        RegisterScreen(
+
+                            onClickBack = {
+
+                                navController.popBackStack()
+                            },
+
+                            onClickContinue = {
+
+                                navController.navigate("register2")
+                            }
+                        )
+                    }
+
+
+                    // -------------------------
+                    // REGISTRO
+                    // PASO 2 DE 3
+                    // TEMPORAL
+                    // -------------------------
+
+                    composable("register2") {
 
                         Box(
                             modifier = Modifier
@@ -204,7 +263,7 @@ class MainActivity : ComponentActivity() {
                         ) {
 
                             Text(
-                                text = "Registro",
+                                text = "Paso 2 - Elegir plan",
                                 color = Color.White
                             )
                         }
