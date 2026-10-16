@@ -19,12 +19,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
 @Composable
 fun LoginScreen(
     onClickLogin: () -> Unit,
     onClickRegister: () -> Unit
 ) {
 
+    // Variables para guardar lo que escribe el usuario
     var email by remember {
         mutableStateOf("")
     }
@@ -48,14 +50,14 @@ fun LoginScreen(
     ) {
 
         Spacer(
-            modifier = Modifier.height(60.dp)
+            modifier = Modifier.height(55.dp)
         )
 
 
         // LOGO
         Text(
             text = "NETFLIX",
-            color = Color.Red,
+            color = Color(0xFFE50914),
             fontSize = 36.sp,
             fontWeight = FontWeight.Bold
         )
@@ -81,44 +83,41 @@ fun LoginScreen(
         )
 
 
+        // -----------------------------
         // CORREO
-        OutlinedTextField(
+        // -----------------------------
 
+        OutlinedTextField(
             value = email,
 
             onValueChange = {
                 email = it
             },
 
-            modifier = Modifier.fillMaxWidth(),
-
-            placeholder = {
-
-                Text(
-                    text = "Email o número de teléfono",
-                    color = Color.Gray
-                )
+            label = {
+                Text("Email o número de teléfono")
             },
+
+            modifier = Modifier.fillMaxWidth(),
 
             singleLine = true,
 
-            shape = RoundedCornerShape(6.dp),
+            shape = RoundedCornerShape(5.dp),
 
             colors = OutlinedTextFieldDefaults.colors(
-
                 focusedTextColor = Color.White,
-
                 unfocusedTextColor = Color.White,
 
-                focusedBorderColor = Color.Gray,
+                focusedLabelColor = Color.LightGray,
+                unfocusedLabelColor = Color.Gray,
 
+                focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.Gray,
 
-                focusedContainerColor = Color(0xFF222222),
+                cursorColor = Color.White,
 
-                unfocusedContainerColor = Color(0xFF222222),
-
-                cursorColor = Color.White
+                focusedContainerColor = Color(0xFF292929),
+                unfocusedContainerColor = Color(0xFF292929)
             )
         )
 
@@ -128,47 +127,44 @@ fun LoginScreen(
         )
 
 
+        // -----------------------------
         // CONTRASEÑA
-        OutlinedTextField(
+        // -----------------------------
 
+        OutlinedTextField(
             value = password,
 
             onValueChange = {
                 password = it
             },
 
-            modifier = Modifier.fillMaxWidth(),
-
-            placeholder = {
-
-                Text(
-                    text = "Contraseña",
-                    color = Color.Gray
-                )
+            label = {
+                Text("Contraseña")
             },
+
+            modifier = Modifier.fillMaxWidth(),
 
             visualTransformation =
                 PasswordVisualTransformation(),
 
             singleLine = true,
 
-            shape = RoundedCornerShape(6.dp),
+            shape = RoundedCornerShape(5.dp),
 
             colors = OutlinedTextFieldDefaults.colors(
-
                 focusedTextColor = Color.White,
-
                 unfocusedTextColor = Color.White,
 
-                focusedBorderColor = Color.Gray,
+                focusedLabelColor = Color.LightGray,
+                unfocusedLabelColor = Color.Gray,
 
+                focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.Gray,
 
-                focusedContainerColor = Color(0xFF222222),
+                cursorColor = Color.White,
 
-                unfocusedContainerColor = Color(0xFF222222),
-
-                cursorColor = Color.White
+                focusedContainerColor = Color(0xFF292929),
+                unfocusedContainerColor = Color(0xFF292929)
             )
         )
 
@@ -178,24 +174,24 @@ fun LoginScreen(
         )
 
 
-        // BOTÓN INICIAR SESIÓN
+        // -----------------------------
+        // INICIAR SESIÓN
+        // -----------------------------
+
         Button(
-
             onClick = {
-
                 onClickLogin()
             },
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(52.dp),
 
             shape = RoundedCornerShape(5.dp),
 
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red
+                containerColor = Color(0xFFE50914)
             )
-
         ) {
 
             Text(
@@ -223,23 +219,20 @@ fun LoginScreen(
         )
 
 
-        // CÓDIGO DE ACCESO
         Button(
-
             onClick = {
 
             },
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(52.dp),
 
             shape = RoundedCornerShape(5.dp),
 
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF333333)
             )
-
         ) {
 
             Text(
@@ -254,11 +247,10 @@ fun LoginScreen(
         )
 
 
-        // OLVIDASTE CONTRASEÑA
         Text(
             text = "¿Olvidaste la contraseña?",
             color = Color.White,
-            fontSize = 15.sp
+            fontSize = 14.sp
         )
 
 
@@ -269,18 +261,14 @@ fun LoginScreen(
 
         // RECUÉRDAME
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Checkbox(
-
                 checked = rememberMe,
 
                 onCheckedChange = {
-
                     rememberMe = it
                 }
             )
@@ -288,7 +276,8 @@ fun LoginScreen(
 
             Text(
                 text = "Recuérdame",
-                color = Color.White
+                color = Color.White,
+                fontSize = 14.sp
             )
         }
 
@@ -313,7 +302,6 @@ fun LoginScreen(
                 fontWeight = FontWeight.Bold,
 
                 modifier = Modifier.clickable {
-
                     onClickRegister()
                 }
             )
